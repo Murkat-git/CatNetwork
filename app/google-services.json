@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "471679991572",
+    "project_id": "cat-machine-learning",
+    "storage_bucket": "cat-machine-learning.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471679991572:android:7e694de5cbedfa0951cc01",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471679991572-69edogd0ei0hotq065d5uic2s1hg8ta6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByCY16hNL7hP3d53wtlL1WSGgAMn6OABk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471679991572-69edogd0ei0hotq065d5uic2s1hg8ta6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471679991572:android:1cab8535fc08558351cc01",
+        "android_client_info": {
+          "package_name": "com.garifullin.catnetwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471679991572-69edogd0ei0hotq065d5uic2s1hg8ta6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByCY16hNL7hP3d53wtlL1WSGgAMn6OABk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471679991572-69edogd0ei0hotq065d5uic2s1hg8ta6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
