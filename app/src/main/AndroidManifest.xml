@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.garifullin.catnetwork">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/cat_launcher"
@@ -9,8 +11,11 @@
         android:roundIcon="@mipmap/cat_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CatNetwork">
-
-        <activity android:name=".PostsActivity"
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PostsActivity"
             android:exported="true"
             android:theme="@style/SplashScreen">
             <intent-filter>
@@ -20,10 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity
-            android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
