@@ -1,13 +1,17 @@
 package com.garifullin.catnetwork
 
+import android.app.TaskStackBuilder
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
@@ -26,15 +30,21 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         db = Firebase.firestore
         auth = Firebase.auth
-        val user: DocumentReference = db.collection("users").document(auth.currentUser?.uid.toString())
+        val userRef: DocumentReference = db.collection("users").document(auth.currentUser?.uid.toString())
+        userRef.get().addOnSuccessListener { value ->
+            val user: User? = value.toObject(User::class.java)
+            if (user != null) {
+                Glide.with(this).load(user.avatarUrl).into(findViewById(R.id.profileAvatar))
+                findViewById<TextView>(R.id.profileUsername).text = user.username
+            }
+        }
         posts = mutableListOf()
         val rv = findViewById<RecyclerView>(R.id.rvProfile)
         adapter = PostsAdapter(this, posts, db)
-
         val query: Query = FirebaseFirestore.getInstance()
             .collection("posts")
             .orderBy("created", Query.Direction.DESCENDING)
-            .whereEqualTo("userReference", user)
+            .whereEqualTo("userReference", userRef)
             .limit(20)
 
         rv.adapter = adapter
@@ -61,8 +71,9 @@ class ProfileActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.signout){
             auth.signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            TaskStackBuilder.create(this)
+                .addNextIntent(Intent(this, LoginActivity::class.java))
+                .startActivities()
         }
         return super.onOptionsItemSelected(item)
     }

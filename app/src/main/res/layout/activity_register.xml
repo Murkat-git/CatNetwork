@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cat_background"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -23,28 +23,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/avatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="avatar"
+        android:onClick="pickAvatar"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:srcCompat="@drawable/ic_launcher_background" />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:autoSizeTextType="uniform"
         android:background="#80FFFFFF"
         android:ems="10"
         android:hint="Имя пользователя"
         android:paddingLeft="10dp"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.297" />
+        app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:autoSizeTextType="uniform"
         android:background="#80FFFFFF"
         android:ems="10"
@@ -52,17 +65,16 @@
         android:inputType="textEmailAddress"
         android:paddingLeft="10dp"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="@+id/username"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/username"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        app:layout_constraintVertical_bias="0.858" />
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:autoSizeTextType="uniform"
         android:background="#80FFFFFF"
         android:ems="10"
@@ -70,26 +82,25 @@
         android:inputType="textPassword"
         android:paddingLeft="10dp"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/email"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/email"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <Button
         android:id="@+id/login"
         android:layout_width="0dp"
         android:layout_height="55dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#00FFFFFF"
         android:shadowColor="@android:color/transparent"
         android:text="Зарегистрироваться"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.653"
+        app:layout_constraintTop_toBottomOf="@+id/password"
         app:strokeColor="#FFFFFF"
         app:strokeWidth="1dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
