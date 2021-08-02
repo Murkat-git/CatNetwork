@@ -1,12 +1,15 @@
 package com.garifullin.catnetwork
 
 import android.content.Context
+import android.content.Intent
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.helper.widget.Layer
+import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,6 +39,12 @@ class PostsAdapter(val context: Context, val posts: List<Post>, val db: Firebase
                 Glide.with(context).load(post.imgUrl).into(itemView.findViewById(R.id.postImage))
                 Glide.with(context).load(user?.avatarUrl).into(itemView.findViewById(R.id.avatar))
                 itemView.findViewById<TextView>(R.id.timestamp).text = DateUtils.getRelativeTimeSpanString(post.created)
+                itemView.findViewById<Layer>(R.id.post_header).setOnClickListener {
+                    Log.e("mytag", "ok")
+                    var intent: Intent = Intent(context, ProfileActivity::class.java)
+                    intent.putExtra("userUid", user!!.uid)
+                    context.startActivity(intent)
+                }
             }
 
         }

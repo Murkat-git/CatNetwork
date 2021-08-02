@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/post_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="avatar,username"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="50dp"
@@ -64,5 +75,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postImage"
         tools:text="Мурка чисто спит Мурка чисто спит Мурка чисто спит Мурка чисто спит Мурка чисто спит" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,10 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CatNetwork">
         <activity
+            android:name=".CreatePost"
+            android:exported="true"
+            android:launchMode="singleTask"/>
+        <activity
             android:name=".ProfileActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTask" />
         <activity
             android:name=".PostsActivity"
+            android:exported="true"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/SplashScreen">
             <intent-filter>
@@ -24,12 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RegisterActivity"
-            />
-        <activity
-            android:name=".LoginActivity"
-            />
     </application>
 
 </manifest>

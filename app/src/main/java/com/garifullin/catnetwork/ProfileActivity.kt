@@ -24,13 +24,15 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     lateinit var posts: MutableList<Post>
     lateinit var adapter: PostsAdapter
+    lateinit var uid: String
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         db = Firebase.firestore
         auth = Firebase.auth
-        val userRef: DocumentReference = db.collection("users").document(auth.currentUser?.uid.toString())
+        uid = intent.getStringExtra("userUid").toString()
+        val userRef: DocumentReference = db.collection("users").document(uid)
         userRef.get().addOnSuccessListener { value ->
             val user: User? = value.toObject(User::class.java)
             if (user != null) {
@@ -64,7 +66,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_profile, menu)
+        if (uid == auth.currentUser!!.uid) {
+            menuInflater.inflate(R.menu.menu_profile, menu)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 

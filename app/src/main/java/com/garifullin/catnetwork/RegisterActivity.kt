@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.roger.catloadinglibrary.CatLoadingView
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -35,6 +36,7 @@ class RegisterActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         storageRef = FirebaseStorage.getInstance().reference
 
+        val catLoadingView = CatLoadingView()
         val username: EditText = findViewById(R.id.username)
         val email: EditText = findViewById(R.id.email)
         val password: EditText = findViewById(R.id.password)
@@ -47,6 +49,8 @@ class RegisterActivity : AppCompatActivity() {
             else{
                 auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnSuccessListener {
+                        catLoadingView.show(supportFragmentManager, "")
+                        catLoadingView.setText("Регистрация...")
                         val ref = storageRef.child("avatars/" + auth.currentUser?.uid)
                         val uploadTask = ref.putFile(pickedAvatarUri)
                         val urlTask = uploadTask.continueWithTask { task ->
@@ -58,10 +62,12 @@ class RegisterActivity : AppCompatActivity() {
                             ref.downloadUrl
                         }
                         urlTask.addOnCompleteListener { task ->
+                            catLoadingView.dialog!!.cancel()
                             if (task.isSuccessful) {
                                 Toast.makeText(this, "good", Toast.LENGTH_LONG).show()
                                 val downloadUri = task.result
                                 val createdUser: User = User()
+                                createdUser.uid = auth.currentUser!!.uid
                                 createdUser.username = username.text.toString()
                                 createdUser.avatarUrl = downloadUri.toString()
                                 db.collection("users").document(auth.currentUser?.uid.toString()).set(createdUser)
