@@ -8,5 +8,5 @@ class Post{
     var description: String = ""
     var imgUrl: String = ""
     var userReference: DocumentReference? = null
-
+    var breed: String = ""
 }
