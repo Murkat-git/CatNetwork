@@ -32,7 +32,11 @@ class PostsAdapter(val context: Context, val posts: List<Post>, val db: Firebase
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(post: Post) {
-            post.userReference?.get()?.addOnSuccessListener { value ->
+            post.userReference!!.addSnapshotListener { value, error ->
+                if (error != null || value == null){
+                    Log.d("mytag", "Ошибка")
+                    return@addSnapshotListener
+                }
                 val user: User? = value.toObject(User::class.java)
                 itemView.findViewById<TextView>(R.id.username).text = user?.username
                 itemView.findViewById<TextView>(R.id.description).text = post.description

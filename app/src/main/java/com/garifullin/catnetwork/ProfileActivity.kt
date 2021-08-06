@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -33,7 +33,11 @@ class ProfileActivity : AppCompatActivity() {
         auth = Firebase.auth
         uid = intent.getStringExtra("userUid").toString()
         val userRef: DocumentReference = db.collection("users").document(uid)
-        userRef.get().addOnSuccessListener { value ->
+        userRef.addSnapshotListener { value, error ->
+            if (error != null || value == null){
+                Log.d("mytag", "Ошибка")
+                return@addSnapshotListener
+            }
             val user: User? = value.toObject(User::class.java)
             if (user != null) {
                 Glide.with(this).load(user.avatarUrl).into(findViewById(R.id.profileAvatar))
@@ -48,6 +52,7 @@ class ProfileActivity : AppCompatActivity() {
             .orderBy("created", Query.Direction.DESCENDING)
             .whereEqualTo("userReference", userRef)
             .limit(20)
+
 
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(this)
@@ -73,11 +78,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.signout){
-            auth.signOut()
-            TaskStackBuilder.create(this)
-                .addNextIntent(Intent(this, LoginActivity::class.java))
-                .startActivities()
+        if (item.itemId == R.id.settings){
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

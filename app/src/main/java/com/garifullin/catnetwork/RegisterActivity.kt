@@ -64,7 +64,6 @@ class RegisterActivity : AppCompatActivity() {
                         urlTask.addOnCompleteListener { task ->
                             catLoadingView.dialog!!.cancel()
                             if (task.isSuccessful) {
-                                Toast.makeText(this, "good", Toast.LENGTH_LONG).show()
                                 val downloadUri = task.result
                                 val createdUser: User = User()
                                 createdUser.uid = auth.currentUser!!.uid

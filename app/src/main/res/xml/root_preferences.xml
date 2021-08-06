@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="Настройки профиля"
+        >
+        <EditTextPreference
+            app:key="change_username"
+            app:title="Изменить имя профиля"
+            >
+        </EditTextPreference>
+        <EditTextPreference
+            app:key="change_email"
+            app:title="Изменить почту"
+            >
+
+        </EditTextPreference>
+        <EditTextPreference
+            app:key="change_password"
+            app:title="Изменить пароль"
+            >
+        </EditTextPreference>
+        <Preference
+            app:key="change_avatar"
+            app:title="Изменить фотографию профиля">
+        </Preference>
+    </PreferenceCategory>
+
+
+
+
+    <Preference
+        app:key="exit_profile"
+        app:title="Выйти из аккаунта"
+        />
+    <Preference
+        app:title="Удалить аккаунт"
+        />
+</PreferenceScreen>
