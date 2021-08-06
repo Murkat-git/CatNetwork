@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/gtim0/AndroidStudioProjects/CatNetwork/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.2703125" />
+        <entry key="..\:/Users/gtim0/AndroidStudioProjects/CatNetwork/app/src/main/res/drawable/ic_baseline_web_24.xml" value="0.2703125" />
+        <entry key="..\:/Users/gtim0/AndroidStudioProjects/CatNetwork/app/src/main/res/layout/activity_breed_only.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/gtim0/AndroidStudioProjects/CatNetwork/app/src/main/res/layout/activity_create_post.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/gtim0/AndroidStudioProjects/CatNetwork/app/src/main/res/layout/activity_posts.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/gtim0/AndroidStudioProjects/CatNetwork/app/src/main/res/layout/activity_profile.xml" value="0.25416666666666665" />

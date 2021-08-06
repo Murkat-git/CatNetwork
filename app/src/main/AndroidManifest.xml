@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CatNetwork">
         <activity
+            android:name=".BreedOnlyActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            />
+        <activity
             android:name=".SettingsActivity"
             android:exported="true"
             android:label="@string/title_activity_settings" />

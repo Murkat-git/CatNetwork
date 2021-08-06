@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/breeds"
+        android:icon="@drawable/ic_baseline_web_24"
+        android:title="Breeds"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="Profile"

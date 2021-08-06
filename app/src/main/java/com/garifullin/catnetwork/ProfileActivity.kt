@@ -29,6 +29,10 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+
         db = Firebase.firestore
         auth = Firebase.auth
         uid = intent.getStringExtra("userUid").toString()
@@ -78,7 +82,11 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.settings){
+        val id = item.itemId
+        if (id == 16908332) {
+            finish()
+        }
+        else if (id == R.id.settings){
             startActivity(Intent(this, SettingsActivity::class.java))
         }
         return super.onOptionsItemSelected(item)

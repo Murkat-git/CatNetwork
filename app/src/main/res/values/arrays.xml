@@ -9,4 +9,49 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="breeds">
+        <item>Unlabeled</item>
+        <item>Abyssinian</item>
+        <item>American_Bobtail</item>
+        <item>American_Curl</item>
+        <item>American_Shorthair</item>
+        <item>American_Wirehair</item>
+        <item>Balinese</item>
+        <item>Bengal</item>
+        <item>Birman</item>
+        <item>Bombay</item>
+        <item>British_Shorthair</item>
+        <item>Burmese</item>
+        <item>Burmilla</item>
+        <item>Chartreux</item>
+        <item>Colorpoint_Shorthair</item>
+        <item>Cornish_Rex</item>
+        <item>Egyptian_Mau</item>
+        <item>European_Burmese</item>
+        <item>Exotic</item>
+        <item>Havana_Brown</item>
+        <item>Japanese_Bobtail</item>
+        <item>Khao_Manee</item>
+        <item>Korat</item>
+        <item>LaPerm</item>
+        <item>Lykoi</item>
+        <item>Maine_Coon</item>
+        <item>Manx</item>
+        <item>Ocicat</item>
+        <item>Oriental</item>
+        <item>RagaMuffin</item>
+        <item>Ragdoll</item>
+        <item>Russian_Blue</item>
+        <item>Scottish_Fold</item>
+        <item>Selkirk_Rex</item>
+        <item>Siamese</item>
+        <item>Siberian</item>
+        <item>Singapura</item>
+        <item>Somali</item>
+        <item>Sphynx</item>
+        <item>Tonkinese</item>
+        <item>Toybob</item>
+        <item>Turkish_Angora</item>
+    </string-array>
 </resources>

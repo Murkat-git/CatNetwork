@@ -70,6 +70,9 @@ class PostsActivity : AppCompatActivity() {
             intent.putExtra("userUid", auth.currentUser!!.uid)
             startActivity(intent)
         }
+        else if (item.itemId == R.id.breeds){
+            startActivity(Intent(this, BreedOnlyActivity::class.java))
+        }
         return super.onOptionsItemSelected(item)
     }
 }

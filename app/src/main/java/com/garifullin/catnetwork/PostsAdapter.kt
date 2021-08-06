@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.toObject
 
-class PostsAdapter(val context: Context, val posts: List<Post>, val db: FirebaseFirestore) : RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
+class PostsAdapter(val context: Context, var posts: List<Post>, val db: FirebaseFirestore) : RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
