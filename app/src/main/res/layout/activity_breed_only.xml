@@ -8,6 +8,7 @@
 
     <Spinner
         android:id="@+id/breeds"
+        android:backgroundTint="@color/black"
         android:layout_width="0dp"
         android:layout_height="32dp"
         app:layout_constraintEnd_toEndOf="parent"
