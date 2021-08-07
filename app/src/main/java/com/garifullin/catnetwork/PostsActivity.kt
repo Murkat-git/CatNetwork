@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.math.BigInteger
+import kotlin.properties.Delegates
 
 
 class PostsActivity : AppCompatActivity() {
@@ -24,6 +27,8 @@ class PostsActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     lateinit var posts: MutableList<Post>
     lateinit var adapter: PostsAdapter
+    lateinit var lastItem: DocumentSnapshot
+    var isLoading by Delegates.notNull<Boolean>()
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_CatNetwork)
         super.onCreate(savedInstanceState)
@@ -41,22 +46,61 @@ class PostsActivity : AppCompatActivity() {
         val query: Query = FirebaseFirestore.getInstance()
             .collection("posts")
             .orderBy("created", Query.Direction.DESCENDING)
-            .limit(20)
+            .limit(5)
+
+        query.get().addOnSuccessListener { value ->
+            lastItem = value.documents.last()
+            Log.e("mytag", value.documents.toString())
+            val postList = value.toObjects(Post::class.java)
+            posts.addAll(postList)
+            adapter.notifyDataSetChanged()
+        }
+        isLoading = false
+//        query.addSnapshotListener { value, error ->
+//            if (error != null || value == null){
+//                Log.d("mytag", "Ошибка")
+//                return@addSnapshotListener
+//            }
+//            Log.e("mytag", value.documents.toString())
+//            val postList = value.toObjects(Post::class.java)
+//            posts.clear()
+//            posts.addAll(postList)
+//            adapter.notifyDataSetChanged()
+//
+//        }
 
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(this)
 
-        query.addSnapshotListener { value, error ->
-            if (error != null || value == null){
-                Log.d("mytag", "Ошибка")
-                return@addSnapshotListener
+        rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && !isLoading){
+                    isLoading = true
+                    Log.e("mytag", "About to empty")
+                    val pagingQuery: Query = FirebaseFirestore.getInstance()
+                        .collection("posts")
+                        .orderBy("created", Query.Direction.DESCENDING)
+                        .startAfter(lastItem)
+                        .limit(5)
+                    Log.e("mytag", lastItem.toString())
+                    pagingQuery.get().addOnSuccessListener { value ->
+                        if (value.isEmpty){
+                            return@addOnSuccessListener
+                        }
+                        //Log.e("mytag", value.toString())
+                        lastItem = value.documents.last()
+                        //Log.e("mytag", value.documents.toString())
+                        val postList = value.toObjects(Post::class.java)
+                        posts.addAll(postList)
+                        adapter.notifyDataSetChanged()
+                        isLoading = false
+                    }
+                }
             }
-            Log.e("mytag", value.documents.toString())
-            val postList = value.toObjects(Post::class.java)
-            posts.clear()
-            posts.addAll(postList)
-            adapter.notifyDataSetChanged()
-        }
+
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

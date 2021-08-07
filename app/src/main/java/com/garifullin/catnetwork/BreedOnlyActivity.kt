@@ -12,10 +12,12 @@ import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.properties.Delegates
 
 class BreedOnlyActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
@@ -23,6 +25,9 @@ class BreedOnlyActivity : AppCompatActivity() {
     lateinit var posts: MutableList<Post>
     lateinit var postsAdapter: PostsAdapter
     lateinit var breedList: List<String>
+    lateinit var lastItem: DocumentSnapshot
+    lateinit var currentBreed: String
+    var isLoading by Delegates.notNull<Boolean>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_breed_only)
@@ -55,27 +60,67 @@ class BreedOnlyActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 posts.clear()
                 postsAdapter.notifyDataSetChanged()
+                currentBreed = breedList[position]
+                Log.e("mytag", currentBreed)
                 val query: Query = FirebaseFirestore.getInstance()
                     .collection("posts")
-                    .orderBy("created", Query.Direction.DESCENDING)
                     .whereEqualTo("breed", breedList[position])
-                    .limit(20)
+                    .orderBy("created", Query.Direction.DESCENDING)
+                    .limit(5)
 
-                query.addSnapshotListener { value, error ->
-                    if (error != null || value == null){
-                        Log.d("mytag", "Ошибка")
-                        return@addSnapshotListener
-                    }
+//                query.get().addOnCompleteListener { task ->
+//                    if (task.isSuccessful){
+//                        lastItem = task.result.documents.last()
+//                        Log.e("mytag", task.result.documents.toString())
+//                        val postList = task.result.toObjects(Post::class.java)
+//                        posts.addAll(postList)
+//                        postsAdapter.notifyDataSetChanged()
+//                    }
+//                    else{
+//                        Log.d("mytag", task.exception.toString())
+//                    }
+//                }
+                query.get().addOnSuccessListener { value ->
+                    lastItem = value.documents.last()
                     Log.e("mytag", value.documents.toString())
                     val postList = value.toObjects(Post::class.java)
-                    posts.clear()
                     posts.addAll(postList)
                     postsAdapter.notifyDataSetChanged()
                 }
+                isLoading = false
             }
 
         }
 
+        rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && !isLoading){
+                    isLoading = true
+                    Log.e("mytag", "About to empty")
+                    val pagingQuery: Query = FirebaseFirestore.getInstance()
+                        .collection("posts")
+                        .orderBy("created", Query.Direction.DESCENDING)
+                        .whereEqualTo("breed", currentBreed)
+                        .startAfter(lastItem)
+                        .limit(5)
+                    Log.e("mytag", lastItem.toString())
+                    pagingQuery.get().addOnSuccessListener { value ->
+                        if (value.isEmpty){
+                            return@addOnSuccessListener
+                        }
+                        //Log.e("mytag", value.toString())
+                        lastItem = value.documents.last()
+                        //Log.e("mytag", value.documents.toString())
+                        val postList = value.toObjects(Post::class.java)
+                        posts.addAll(postList)
+                        postsAdapter.notifyDataSetChanged()
+                        isLoading = false
+                    }
+                }
+            }
+
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
