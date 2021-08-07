@@ -3,6 +3,7 @@ package com.garifullin.catnetwork
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -123,10 +124,18 @@ class BreedOnlyActivity : AppCompatActivity() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_breeds_activity, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == 16908332) {
             finish()
+        }
+        else if(id == R.id.refresh){
+            recreate()
         }
         return super.onOptionsItemSelected(item)
     }

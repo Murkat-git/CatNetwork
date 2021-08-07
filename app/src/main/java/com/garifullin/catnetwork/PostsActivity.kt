@@ -117,6 +117,9 @@ class PostsActivity : AppCompatActivity() {
         else if (item.itemId == R.id.breeds){
             startActivity(Intent(this, BreedOnlyActivity::class.java))
         }
+        else if (item.itemId == R.id.refresh){
+            recreate()
+        }
         return super.onOptionsItemSelected(item)
     }
 }

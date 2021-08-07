@@ -7,9 +7,4 @@
         android:icon="@drawable/ic_baseline_refresh_24"
         android:title="Refresh"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Настройки"
-        app:showAsAction="always" />
 </menu>

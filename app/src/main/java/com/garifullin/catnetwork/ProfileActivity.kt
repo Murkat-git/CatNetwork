@@ -130,6 +130,9 @@ class ProfileActivity : AppCompatActivity() {
         else if (id == R.id.settings){
             startActivity(Intent(this, SettingsActivity::class.java))
         }
+        else if (id == R.id.refresh){
+            recreate()
+        }
         return super.onOptionsItemSelected(item)
     }
 }
