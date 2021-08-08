@@ -82,6 +82,9 @@ class BreedOnlyActivity : AppCompatActivity() {
 //                    }
 //                }
                 query.get().addOnSuccessListener { value ->
+                    if (value.isEmpty){
+                        return@addOnSuccessListener
+                    }
                     lastItem = value.documents.last()
                     Log.e("mytag", value.documents.toString())
                     val postList = value.toObjects(Post::class.java)
