@@ -32,7 +32,4 @@
         app:key="exit_profile"
         app:title="Выйти из аккаунта"
         />
-    <Preference
-        app:title="Удалить аккаунт"
-        />
 </PreferenceScreen>

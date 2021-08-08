@@ -133,7 +133,7 @@ class CreatePost : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.home) {
+        if (id == 16908332) {
             finish()
         }
         else if (id == R.id.submit){
