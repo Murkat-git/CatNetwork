@@ -85,6 +85,7 @@ class BreedOnlyActivity : AppCompatActivity() {
                     lastItem = value.documents.last()
                     Log.e("mytag", value.documents.toString())
                     val postList = value.toObjects(Post::class.java)
+                    posts.clear()
                     posts.addAll(postList)
                     postsAdapter.notifyDataSetChanged()
                 }
