@@ -25,6 +25,7 @@ class BreedOnlyActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     lateinit var posts: MutableList<Post>
     lateinit var postsAdapter: PostsAdapter
+    lateinit var rv: RecyclerView
     lateinit var breedList: List<String>
     lateinit var lastItem: DocumentSnapshot
     lateinit var currentBreed: String
@@ -36,15 +37,7 @@ class BreedOnlyActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        auth = FirebaseAuth.getInstance()
-        db = Firebase.firestore
-        posts = mutableListOf()
-        val rv = findViewById<RecyclerView>(R.id.rv)
-
-        postsAdapter = PostsAdapter(this, posts, db)
-
-        rv.adapter = postsAdapter
-        rv.layoutManager = LinearLayoutManager(this)
+        initialize()
 
         val breedSpinner: Spinner = findViewById(R.id.breeds)
         breedList = resources.getStringArray(R.array.breeds).toList()
@@ -68,30 +61,7 @@ class BreedOnlyActivity : AppCompatActivity() {
                     .whereEqualTo("breed", breedList[position])
                     .orderBy("created", Query.Direction.DESCENDING)
                     .limit(5)
-
-//                query.get().addOnCompleteListener { task ->
-//                    if (task.isSuccessful){
-//                        lastItem = task.result.documents.last()
-//                        Log.e("mytag", task.result.documents.toString())
-//                        val postList = task.result.toObjects(Post::class.java)
-//                        posts.addAll(postList)
-//                        postsAdapter.notifyDataSetChanged()
-//                    }
-//                    else{
-//                        Log.d("mytag", task.exception.toString())
-//                    }
-//                }
-                query.get().addOnSuccessListener { value ->
-                    if (value.isEmpty){
-                        return@addOnSuccessListener
-                    }
-                    lastItem = value.documents.last()
-                    Log.e("mytag", value.documents.toString())
-                    val postList = value.toObjects(Post::class.java)
-                    posts.clear()
-                    posts.addAll(postList)
-                    postsAdapter.notifyDataSetChanged()
-                }
+                getData(query)
                 isLoading = false
             }
 
@@ -110,22 +80,38 @@ class BreedOnlyActivity : AppCompatActivity() {
                         .startAfter(lastItem)
                         .limit(5)
                     Log.e("mytag", lastItem.toString())
-                    pagingQuery.get().addOnSuccessListener { value ->
-                        if (value.isEmpty){
-                            return@addOnSuccessListener
-                        }
-                        //Log.e("mytag", value.toString())
-                        lastItem = value.documents.last()
-                        //Log.e("mytag", value.documents.toString())
-                        val postList = value.toObjects(Post::class.java)
-                        posts.addAll(postList)
-                        postsAdapter.notifyDataSetChanged()
-                        isLoading = false
-                    }
+
                 }
             }
 
         })
+    }
+
+    private fun initialize() {
+        auth = FirebaseAuth.getInstance()
+        db = Firebase.firestore
+        posts = mutableListOf()
+        rv = findViewById<RecyclerView>(R.id.rv)
+
+        postsAdapter = PostsAdapter(this, posts, db)
+
+        rv.adapter = postsAdapter
+        rv.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun getData(query: Query){
+        query.get().addOnSuccessListener { value ->
+            if (value.isEmpty){
+                return@addOnSuccessListener
+            }
+            //Log.e("mytag", value.toString())
+            lastItem = value.documents.last()
+            //Log.e("mytag", value.documents.toString())
+            val postList = value.toObjects(Post::class.java)
+            posts.addAll(postList)
+            postsAdapter.notifyDataSetChanged()
+            isLoading = false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
