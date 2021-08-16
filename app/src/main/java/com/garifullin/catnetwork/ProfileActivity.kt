@@ -22,9 +22,12 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     lateinit var posts: MutableList<Post>
     lateinit var adapter: PostsAdapter
+    lateinit var rv: RecyclerView
+
     lateinit var uid: String
     private lateinit var auth: FirebaseAuth
     lateinit var lastItem: DocumentSnapshot
+    lateinit var userRef: DocumentReference
     var isLoading by Delegates.notNull<Boolean>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,24 +36,7 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        db = Firebase.firestore
-        auth = Firebase.auth
-        uid = intent.getStringExtra("userUid").toString()
-        val userRef: DocumentReference = db.collection("users").document(uid)
-        userRef.addSnapshotListener { value, error ->
-            if (error != null || value == null){
-                Log.d("mytag", "Ошибка")
-                return@addSnapshotListener
-            }
-            val user: User? = value.toObject(User::class.java)
-            if (user != null) {
-                Glide.with(this).load(user.avatarUrl).into(findViewById(R.id.profileAvatar))
-                findViewById<TextView>(R.id.profileUsername).text = user.username
-            }
-        }
-        posts = mutableListOf()
-        val rv = findViewById<RecyclerView>(R.id.rvProfile)
-        adapter = PostsAdapter(this, posts, db)
+        initialize()
 
         val query: Query = FirebaseFirestore.getInstance()
             .collection("posts")
@@ -58,34 +44,7 @@ class ProfileActivity : AppCompatActivity() {
             .whereEqualTo("userReference", userRef)
             .limit(5)
 
-
-        rv.adapter = adapter
-        rv.layoutManager = LinearLayoutManager(this)
-
-//        query.get().addOnCompleteListener { task ->
-//            if (task.isSuccessful){
-//                lastItem = task.result.documents.last()
-//                Log.e("mytag", task.result.documents.toString())
-//                val postList = task.result.toObjects(Post::class.java)
-//                posts.addAll(postList)
-//                adapter.notifyDataSetChanged()
-//            }
-//            else{
-//                Log.d("mytag", task.exception.toString())
-//            }
-//        }
-
-        query.get().addOnSuccessListener { value ->
-            if (value.isEmpty){
-                return@addOnSuccessListener
-            }
-            lastItem = value.documents.last()
-            Log.e("mytag", value.documents.toString())
-            val postList = value.toObjects(Post::class.java)
-            posts.addAll(postList)
-            adapter.notifyDataSetChanged()
-        }
-        isLoading = false
+        getData(query)
 
         rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -100,22 +59,48 @@ class ProfileActivity : AppCompatActivity() {
                         .startAfter(lastItem)
                         .limit(5)
                     Log.e("mytag", lastItem.toString())
-                    pagingQuery.get().addOnSuccessListener { value ->
-                        if (value.isEmpty){
-                            return@addOnSuccessListener
-                        }
-                        //Log.e("mytag", value.toString())
-                        lastItem = value.documents.last()
-                        //Log.e("mytag", value.documents.toString())
-                        val postList = value.toObjects(Post::class.java)
-                        posts.addAll(postList)
-                        adapter.notifyDataSetChanged()
-                        isLoading = false
-                    }
+                    getData(pagingQuery)
                 }
             }
 
         })
+    }
+
+    private fun initialize() {
+        db = Firebase.firestore
+        auth = Firebase.auth
+        uid = intent.getStringExtra("userUid").toString()
+        userRef = db.collection("users").document(uid)
+        userRef.addSnapshotListener { value, error ->
+            if (error != null || value == null){
+                Log.d("mytag", "Ошибка")
+                return@addSnapshotListener
+            }
+            val user: User = value.toObject(User::class.java)!!
+            Glide.with(this).load(user.avatarUrl).into(findViewById(R.id.profileAvatar))
+            findViewById<TextView>(R.id.profileUsername).text = user.username
+        }
+        posts = mutableListOf()
+        rv = findViewById<RecyclerView>(R.id.rvProfile)
+        adapter = PostsAdapter(this, posts, db)
+
+        rv.adapter = adapter
+        rv.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun getData(query: Query){
+        query.get().addOnSuccessListener { value ->
+            if (value.isEmpty){
+                return@addOnSuccessListener
+            }
+            //Log.e("mytag", value.toString())
+            lastItem = value.documents.last()
+            //Log.e("mytag", value.documents.toString())
+            val postList = value.toObjects(Post::class.java)
+            posts.addAll(postList)
+            adapter.notifyDataSetChanged()
+            isLoading = false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -50,15 +50,18 @@ class SettingsActivity : AppCompatActivity() {
         lateinit var storageRef: StorageReference
         lateinit var currentUser: FirebaseUser
         lateinit var catLoadingView: CatLoadingView
-        lateinit var password: String
+
+        private lateinit var reAuthDialog: AlertDialog
+        private lateinit var inputEditTextField: EditText
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             catLoadingView = CatLoadingView()
             catLoadingView.setText("Обновление")
 
-            val inputEditTextField = EditText(requireActivity())
-            val reAuthDialog = AlertDialog.Builder(requireContext())
+            inputEditTextField = EditText(requireActivity())
+            reAuthDialog = AlertDialog.Builder(requireContext())
                 .setTitle("Введите пароль")
                 .setView(inputEditTextField)
                 .setNegativeButton("Отмена", null)
@@ -69,6 +72,16 @@ class SettingsActivity : AppCompatActivity() {
             currentUserDocRef = FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
             storageRef = FirebaseStorage.getInstance().reference
 
+            setChangeUsernamePref()
+            setChangeEmailPref()
+            setChangePasswordPref()
+            setChangeAvatarPref()
+            setExitProfilePref()
+
+        }
+
+
+        private fun setChangeUsernamePref(){
             var changeUsernamePref = findPreference<EditTextPreference>("change_username")!!
             currentUserDocRef.get().addOnCompleteListener { task ->
                 changeUsernamePref.text = task.result.toObject(User::class.java)!!.username
@@ -80,6 +93,9 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 true
             }
+        }
+
+        private fun setChangeEmailPref() {
             var changeEmailPref = findPreference<EditTextPreference>("change_email")!!
             changeEmailPref.text = currentUser.email
             changeEmailPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
@@ -88,19 +104,19 @@ class SettingsActivity : AppCompatActivity() {
                         .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener { it ->
-                        if (it.isSuccessful){
-                            catLoadingView.show(parentFragmentManager, "")
-                            currentUser.updateEmail(newValue.toString()).addOnCompleteListener { task ->
-                                catLoadingView.dialog!!.cancel()
-                                if(!task.isSuccessful) {
-                                    Log.e("mytag", task.exception.toString())
+                            if (it.isSuccessful){
+                                catLoadingView.show(parentFragmentManager, "")
+                                currentUser.updateEmail(newValue.toString()).addOnCompleteListener { task ->
+                                    catLoadingView.dialog!!.cancel()
+                                    if(!task.isSuccessful) {
+                                        Log.e("mytag", task.exception.toString())
+                                    }
                                 }
                             }
+                            else{
+                                Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
+                            }
                         }
-                        else{
-                            Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
-                        }
-                    }
 
 
                 })
@@ -108,7 +124,9 @@ class SettingsActivity : AppCompatActivity() {
 
                 true
             }
+        }
 
+        private fun setChangePasswordPref(){
             var changePasswordPref = findPreference<EditTextPreference>("change_password")!!
             changePasswordPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
                 reAuthDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ок", DialogInterface.OnClickListener { dialogInterface, i ->
@@ -131,7 +149,9 @@ class SettingsActivity : AppCompatActivity() {
                 reAuthDialog.show()
                 true
             }
+        }
 
+        private fun setChangeAvatarPref(){
             var changeAvatarPref = findPreference<Preference>("change_avatar")!!
             changeAvatarPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 ImagePicker.with(this)
@@ -142,7 +162,9 @@ class SettingsActivity : AppCompatActivity() {
                     .start()
                 true
             }
+        }
 
+        private fun setExitProfilePref(){
             var exitProfilePref = findPreference<Preference>("exit_profile")!!
             exitProfilePref.onPreferenceClickListener = Preference.OnPreferenceClickListener { preference ->
                 auth.signOut()
@@ -184,6 +206,7 @@ class SettingsActivity : AppCompatActivity() {
                 Toast.makeText(activity, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -48,26 +48,7 @@ class PostsActivity : AppCompatActivity() {
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(5)
 
-        query.get().addOnSuccessListener { value ->
-            lastItem = value.documents.last()
-            Log.e("mytag", value.documents.toString())
-            val postList = value.toObjects(Post::class.java)
-            posts.addAll(postList)
-            adapter.notifyDataSetChanged()
-        }
-        isLoading = false
-//        query.addSnapshotListener { value, error ->
-//            if (error != null || value == null){
-//                Log.d("mytag", "Ошибка")
-//                return@addSnapshotListener
-//            }
-//            Log.e("mytag", value.documents.toString())
-//            val postList = value.toObjects(Post::class.java)
-//            posts.clear()
-//            posts.addAll(postList)
-//            adapter.notifyDataSetChanged()
-//
-//        }
+        getData(query)
 
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(this)
@@ -84,23 +65,27 @@ class PostsActivity : AppCompatActivity() {
                         .startAfter(lastItem)
                         .limit(5)
                     Log.e("mytag", lastItem.toString())
-                    pagingQuery.get().addOnSuccessListener { value ->
-                        if (value.isEmpty){
-                            return@addOnSuccessListener
-                        }
-                        //Log.e("mytag", value.toString())
-                        lastItem = value.documents.last()
-                        //Log.e("mytag", value.documents.toString())
-                        val postList = value.toObjects(Post::class.java)
-                        posts.addAll(postList)
-                        adapter.notifyDataSetChanged()
-                        isLoading = false
-                    }
+                    getData(pagingQuery)
                 }
             }
 
         })
 
+    }
+
+    private fun getData(query: Query){
+        query.get().addOnSuccessListener { value ->
+            if (value.isEmpty){
+                return@addOnSuccessListener
+            }
+            //Log.e("mytag", value.toString())
+            lastItem = value.documents.last()
+            //Log.e("mytag", value.documents.toString())
+            val postList = value.toObjects(Post::class.java)
+            posts.addAll(postList)
+            adapter.notifyDataSetChanged()
+            isLoading = false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
