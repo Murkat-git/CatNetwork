@@ -35,16 +35,14 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Поля не должны быть пустыми", Toast.LENGTH_LONG).show()
             }
             else{
-                auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnSuccessListener(
-                    OnSuccessListener {
-                        Toast.makeText(this, "Вход произошел удачно", Toast.LENGTH_SHORT).show()
+                auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener {
+                    if (it.isSuccessful){
                         updateUI(auth.currentUser)
-                    })
-                    .addOnFailureListener(OnFailureListener { x ->
-                        Toast.makeText(this, x.toString(), Toast.LENGTH_SHORT).show()
-                    })
+                    }
+                    login.isEnabled = true
+                }
             }
-            login.isEnabled = true
+
         })
     }
 
