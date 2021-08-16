@@ -21,11 +21,9 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
-        auth = Firebase.auth
-        if (auth.currentUser != null) {
-            startActivity(Intent(this, PostsActivity::class.java))
-            finish()
-        }
+
+        initialize()
+
         val email: EditText = findViewById(R.id.email)
         val password: EditText = findViewById(R.id.password)
         val login: Button = findViewById(R.id.login)
@@ -33,17 +31,23 @@ class LoginActivity : AppCompatActivity() {
             login.isEnabled = false
             if (email.text.isBlank() or password.text.isBlank()){
                 Toast.makeText(this, "Поля не должны быть пустыми", Toast.LENGTH_LONG).show()
+                return@OnClickListener
             }
-            else{
-                auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener {
-                    if (it.isSuccessful){
-                        updateUI(auth.currentUser)
-                    }
-                    login.isEnabled = true
+            auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener {
+                if (it.isSuccessful){
+                    updateUI(auth.currentUser)
                 }
+                login.isEnabled = true
             }
-
         })
+    }
+
+    private fun initialize() {
+        auth = Firebase.auth
+        if (auth.currentUser != null) {
+            startActivity(Intent(this, PostsActivity::class.java))
+            finish()
+        }
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
@@ -52,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, PostsActivity::class.java))
         }
     }
+
     fun doRegister(view: View){
         finish()
         startActivity(Intent(this, RegisterActivity::class.java))
