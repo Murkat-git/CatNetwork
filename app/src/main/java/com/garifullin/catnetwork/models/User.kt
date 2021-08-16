@@ -1,4 +1,4 @@
-package com.garifullin.catnetwork
+package com.garifullin.catnetwork.models
 
 class User{
     var avatarUrl: String = ""

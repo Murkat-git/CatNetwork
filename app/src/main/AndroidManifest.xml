@@ -12,12 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CatNetwork">
         <activity
-            android:name=".BreedOnlyActivity"
+            android:name=".postsDisplay.BreedOnlyActivity"
             android:exported="true"
             android:launchMode="singleTask"
             />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".accountRelated.SettingsActivity"
             android:exported="true"
             android:label="@string/title_activity_settings" />
         <activity
@@ -25,16 +25,16 @@
             android:exported="true"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".postsDisplay.ProfileActivity"
             android:exported="true"
             android:launchMode="singleTask" />
         <activity
-            android:name=".PostsActivity"
+            android:name=".postsDisplay.PostsActivity"
             android:exported="true"
             android:launchMode="singleTask" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".accountRelated.RegisterActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".accountRelated.LoginActivity"
             android:exported="true"
             android:theme="@style/SplashScreen">
             <intent-filter>

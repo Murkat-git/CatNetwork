@@ -1,7 +1,6 @@
-package com.garifullin.catnetwork
+package com.garifullin.catnetwork.models
 
 import com.google.firebase.firestore.DocumentReference
-import java.util.*
 
 class Post{
     var created: Long = 0

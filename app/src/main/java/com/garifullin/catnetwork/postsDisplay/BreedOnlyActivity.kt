@@ -1,4 +1,4 @@
-package com.garifullin.catnetwork
+package com.garifullin.catnetwork.postsDisplay
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,10 +8,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ListAdapter
 import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.garifullin.catnetwork.models.Post
+import com.garifullin.catnetwork.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,10 +42,10 @@ class BreedOnlyActivity : AppCompatActivity() {
 
         val breedSpinner: Spinner = findViewById(R.id.breeds)
         breedList = resources.getStringArray(R.array.breeds).toList()
-        var adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(this, R.array.breeds, android.R.layout.simple_spinner_item)
+        var adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(this,
+            R.array.breeds, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         breedSpinner.adapter = adapter
-
 
         breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {

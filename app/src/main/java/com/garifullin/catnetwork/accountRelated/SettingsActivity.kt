@@ -1,4 +1,4 @@
-package com.garifullin.catnetwork
+package com.garifullin.catnetwork.accountRelated
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -11,12 +11,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.garifullin.catnetwork.R
+import com.garifullin.catnetwork.models.User
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth

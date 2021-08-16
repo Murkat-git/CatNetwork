@@ -1,4 +1,4 @@
-package com.garifullin.catnetwork
+package com.garifullin.catnetwork.postsDisplay
 
 import android.content.Context
 import android.content.Intent
@@ -9,12 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.helper.widget.Layer
-import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.garifullin.catnetwork.R
+import com.garifullin.catnetwork.models.Post
+import com.garifullin.catnetwork.models.User
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
-import com.google.firebase.firestore.ktx.toObject
 
 class PostsAdapter(val context: Context, var posts: List<Post>, val db: FirebaseFirestore) : RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
