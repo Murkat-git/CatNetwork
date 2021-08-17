@@ -101,32 +101,29 @@ class SettingsActivity : AppCompatActivity() {
             changeEmailPref.text = currentUser.email
             changeEmailPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
                 reAuthDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ок", DialogInterface.OnClickListener { dialogInterface, i ->
-                    updateEmail(newValue = newValue.toString())
+                    val credential = EmailAuthProvider
+                        .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
+                    auth.signInWithCredential(credential)
+                        .addOnCompleteListener { it ->
+                            if (it.isSuccessful){
+                                catLoadingView.show(parentFragmentManager, "")
+                                currentUser.updateEmail(newValue.toString()).addOnCompleteListener { task ->
+                                    catLoadingView.dialog!!.cancel()
+                                    if(!task.isSuccessful) {
+                                        Log.e("mytag", task.exception.toString())
+                                    }
+                                }
+                            }
+                            else{
+                                Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+
                 })
                 reAuthDialog.show()
 
                 true
-            }
-        }
-
-        private fun updateEmail(newValue: String) {
-            val credential = EmailAuthProvider
-                .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
-            auth.signInWithCredential(credential)
-                .addOnCompleteListener { it ->
-                    if (it.isSuccessful){
-                        updateEmail(newValue.toString())
-                    }
-                    else{
-                        Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
-                    }
-                }
-            catLoadingView.show(parentFragmentManager, "")
-            currentUser.updateEmail(newValue).addOnCompleteListener { task ->
-                catLoadingView.dialog!!.cancel()
-                if(!task.isSuccessful) {
-                    Log.e("mytag", task.exception.toString())
-                }
             }
         }
 
@@ -134,28 +131,25 @@ class SettingsActivity : AppCompatActivity() {
             var changePasswordPref = findPreference<EditTextPreference>("change_password")!!
             changePasswordPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
                 reAuthDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ок", DialogInterface.OnClickListener { dialogInterface, i ->
-                    updatePassword(newValue = newValue.toString())
+                    val credential = EmailAuthProvider
+                        .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
+                    auth.signInWithCredential(credential).addOnCompleteListener { it ->
+                        if (it.isSuccessful){
+                            catLoadingView.show(parentFragmentManager, "")
+                            currentUser.updatePassword(newValue.toString()).addOnCompleteListener {
+                                catLoadingView.dialog!!.cancel()
+                            }
+                        }
+                        else{
+                            Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+
                 })
                 reAuthDialog.show()
                 true
             }
-        }
-
-        private fun updatePassword(newValue: String) {
-            val credential = EmailAuthProvider
-                .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
-            auth.signInWithCredential(credential).addOnCompleteListener { it ->
-                if (it.isSuccessful){
-                    catLoadingView.show(parentFragmentManager, "")
-                    currentUser.updatePassword(newValue).addOnCompleteListener {
-                        catLoadingView.dialog!!.cancel()
-                    }
-                }
-                else{
-                    Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
-                }
-            }
-
         }
 
         private fun setChangeAvatarPref(){
