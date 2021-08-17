@@ -101,19 +101,7 @@ class SettingsActivity : AppCompatActivity() {
             changeEmailPref.text = currentUser.email
             changeEmailPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
                 reAuthDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ок", DialogInterface.OnClickListener { dialogInterface, i ->
-                    val credential = EmailAuthProvider
-                        .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
-                    auth.signInWithCredential(credential)
-                        .addOnCompleteListener { it ->
-                            if (it.isSuccessful){
-                                updateEmail(newValue.toString())
-                            }
-                            else{
-                                Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
-                            }
-                        }
-
-
+                    updateEmail(newValue = newValue.toString())
                 })
                 reAuthDialog.show()
 
@@ -122,6 +110,17 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun updateEmail(newValue: String) {
+            val credential = EmailAuthProvider
+                .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener { it ->
+                    if (it.isSuccessful){
+                        updateEmail(newValue.toString())
+                    }
+                    else{
+                        Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
+                    }
+                }
             catLoadingView.show(parentFragmentManager, "")
             currentUser.updateEmail(newValue).addOnCompleteListener { task ->
                 catLoadingView.dialog!!.cancel()
@@ -135,18 +134,7 @@ class SettingsActivity : AppCompatActivity() {
             var changePasswordPref = findPreference<EditTextPreference>("change_password")!!
             changePasswordPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
                 reAuthDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ок", DialogInterface.OnClickListener { dialogInterface, i ->
-                    val credential = EmailAuthProvider
-                        .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
-                    auth.signInWithCredential(credential).addOnCompleteListener { it ->
-                        if (it.isSuccessful){
-                            updatePassword(newValue.toString())
-                        }
-                        else{
-                            Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
-                        }
-                    }
-
-
+                    updatePassword(newValue = newValue.toString())
                 })
                 reAuthDialog.show()
                 true
@@ -154,10 +142,20 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun updatePassword(newValue: String) {
-            catLoadingView.show(parentFragmentManager, "")
-            currentUser.updatePassword(newValue.toString()).addOnCompleteListener {
-                catLoadingView.dialog!!.cancel()
+            val credential = EmailAuthProvider
+                .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
+            auth.signInWithCredential(credential).addOnCompleteListener { it ->
+                if (it.isSuccessful){
+                    catLoadingView.show(parentFragmentManager, "")
+                    currentUser.updatePassword(newValue).addOnCompleteListener {
+                        catLoadingView.dialog!!.cancel()
+                    }
+                }
+                else{
+                    Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
+                }
             }
+
         }
 
         private fun setChangeAvatarPref(){
