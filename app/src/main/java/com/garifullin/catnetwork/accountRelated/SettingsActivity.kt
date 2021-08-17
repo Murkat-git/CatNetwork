@@ -106,13 +106,7 @@ class SettingsActivity : AppCompatActivity() {
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener { it ->
                             if (it.isSuccessful){
-                                catLoadingView.show(parentFragmentManager, "")
-                                currentUser.updateEmail(newValue.toString()).addOnCompleteListener { task ->
-                                    catLoadingView.dialog!!.cancel()
-                                    if(!task.isSuccessful) {
-                                        Log.e("mytag", task.exception.toString())
-                                    }
-                                }
+                                updateEmail(newValue.toString())
                             }
                             else{
                                 Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
@@ -127,6 +121,16 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        private fun updateEmail(newValue: String) {
+            catLoadingView.show(parentFragmentManager, "")
+            currentUser.updateEmail(newValue).addOnCompleteListener { task ->
+                catLoadingView.dialog!!.cancel()
+                if(!task.isSuccessful) {
+                    Log.e("mytag", task.exception.toString())
+                }
+            }
+        }
+
         private fun setChangePasswordPref(){
             var changePasswordPref = findPreference<EditTextPreference>("change_password")!!
             changePasswordPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
@@ -135,10 +139,7 @@ class SettingsActivity : AppCompatActivity() {
                         .getCredential(currentUser.email.toString(), inputEditTextField.text.toString())
                     auth.signInWithCredential(credential).addOnCompleteListener { it ->
                         if (it.isSuccessful){
-                            catLoadingView.show(parentFragmentManager, "")
-                            currentUser.updatePassword(newValue.toString()).addOnCompleteListener {
-                                catLoadingView.dialog!!.cancel()
-                            }
+                            updatePassword(newValue.toString())
                         }
                         else{
                             Toast.makeText(activity, "Неправильный пароль", Toast.LENGTH_LONG).show()
@@ -149,6 +150,13 @@ class SettingsActivity : AppCompatActivity() {
                 })
                 reAuthDialog.show()
                 true
+            }
+        }
+
+        private fun updatePassword(newValue: String) {
+            catLoadingView.show(parentFragmentManager, "")
+            currentUser.updatePassword(newValue.toString()).addOnCompleteListener {
+                catLoadingView.dialog!!.cancel()
             }
         }
 
