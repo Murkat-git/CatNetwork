@@ -10,7 +10,7 @@
         <item>reply_all</item>
     </string-array>
 
-    <string-array name="breeds">
+    <string-array name="breeds_keys">
         <item>Unlabeled</item>
         <item>Abyssinian</item>
         <item>American_Bobtail</item>
@@ -53,5 +53,50 @@
         <item>Tonkinese</item>
         <item>Toybob</item>
         <item>Turkish_Angora</item>
+    </string-array>
+
+    <string-array name="breeds">
+        <item>@string/Unlabeled</item>
+        <item>@string/Abyssinian</item>
+        <item>@string/American_Bobtail</item>
+        <item>@string/American_Curl</item>
+        <item>@string/American_Shorthair</item>
+        <item>@string/American_Wirehair</item>
+        <item>@string/Balinese</item>
+        <item>@string/Bengal</item>
+        <item>@string/Birman</item>
+        <item>@string/Bombay</item>
+        <item>@string/British_Shorthair</item>
+        <item>@string/Burmese</item>
+        <item>@string/Burmilla</item>
+        <item>@string/Chartreux</item>
+        <item>@string/Colorpoint_Shorthair</item>
+        <item>@string/Cornish_Rex</item>
+        <item>@string/Egyptian_Mau</item>
+        <item>@string/European_Burmese</item>
+        <item>@string/Exotic</item>
+        <item>@string/Havana_Brown</item>
+        <item>@string/Japanese_Bobtail</item>
+        <item>@string/Khao_Manee</item>
+        <item>@string/Korat</item>
+        <item>@string/LaPerm</item>
+        <item>@string/Lykoi</item>
+        <item>@string/Maine_Coon</item>
+        <item>@string/Manx</item>
+        <item>@string/Ocicat</item>
+        <item>@string/Oriental</item>
+        <item>@string/RagaMuffin</item>
+        <item>@string/Ragdoll</item>
+        <item>@string/Russian_Blue</item>
+        <item>@string/Scottish_Fold</item>
+        <item>@string/Selkirk_Rex</item>
+        <item>@string/Siamese</item>
+        <item>@string/Siberian</item>
+        <item>@string/Singapura</item>
+        <item>@string/Somali</item>
+        <item>@string/Sphynx</item>
+        <item>@string/Tonkinese</item>
+        <item>@string/Toybob</item>
+        <item>@string/Turkish_Angora</item>
     </string-array>
 </resources>

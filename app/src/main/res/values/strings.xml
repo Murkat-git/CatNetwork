@@ -2,18 +2,48 @@
     <string name="app_name">CatNetwork</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <!--Breeds -->
+    <string name="Unlabeled">Unlabeled</string>
+    <string name="Abyssinian">Abyssinian</string>
+    <string name="American_Bobtail">American Bobtail</string>
+    <string name="American_Curl">American Curl</string>
+    <string name="American_Shorthair">American Shorthair</string>
+    <string name="American_Wirehair">American Wirehair</string>
+    <string name="Balinese">Balinese</string>
+    <string name="Bengal">Bengal</string>
+    <string name="Birman">Birman</string>
+    <string name="Bombay">Bombay</string>
+    <string name="British_Shorthair">British Shorthair</string>
+    <string name="Burmese">Burmese</string>
+    <string name="Burmilla">Burmilla</string>
+    <string name="Chartreux">Chartreux</string>
+    <string name="Colorpoint_Shorthair">Colorpoint Shorthair</string>
+    <string name="Cornish_Rex">Cornish Rex</string>
+    <string name="Egyptian_Mau">Egyptian Mau</string>
+    <string name="European_Burmese">European Burmese</string>
+    <string name="Exotic">Exotic</string>
+    <string name="Havana_Brown">Havana Brown</string>
+    <string name="Japanese_Bobtail">Japanese Bobtail</string>
+    <string name="Khao_Manee">Khao Manee</string>
+    <string name="Korat">Korat</string>
+    <string name="LaPerm">LaPerm</string>
+    <string name="Lykoi">Lykoi</string>
+    <string name="Maine_Coon">Maine Coon</string>
+    <string name="Manx">Manx</string>
+    <string name="Ocicat">Ocicat</string>
+    <string name="Oriental">Oriental</string>
+    <string name="RagaMuffin">RagaMuffin</string>
+    <string name="Ragdoll">Ragdoll</string>
+    <string name="Russian_Blue">Russian Blue</string>
+    <string name="Scottish_Fold">Scottish Fold</string>
+    <string name="Selkirk_Rex">Selkirk Rex</string>
+    <string name="Siamese">Siamese</string>
+    <string name="Siberian">Siberian</string>
+    <string name="Singapura">Singapura</string>
+    <string name="Somali">Somali</string>
+    <string name="Sphynx">Sphynx</string>
+    <string name="Tonkinese">Tonkinese</string>
+    <string name="Toybob">Toybob</string>
+    <string name="Turkish_Angora">Turkish Angora</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>

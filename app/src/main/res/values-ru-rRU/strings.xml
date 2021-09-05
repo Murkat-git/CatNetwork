@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CatNetwork</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="Unlabeled">"Неопределенный "</string>
+    <string name="Abyssinian">Абиссинская</string>
+    <string name="American_Bobtail">Американский бобтейл</string>
+    <string name="American_Curl">Американский кёрл</string>
+    <string name="American_Shorthair">Американская короткошёрстная</string>
+    <string name="American_Wirehair">Американская жесткошёрстная</string>
+    <string name="Balinese">Балинезийская</string>
+    <string name="Bengal">Бенгальская</string>
+    <string name="Birman">Бирманская</string>
+    <string name="Bombay">Бомбейская</string>
+    <string name="British_Shorthair">Британская короткошёрстная</string>
+    <string name="Burmese">Бурма</string>
+    <string name="Burmilla">Бурмилла</string>
+    <string name="Chartreux">Шартрез</string>
+    <string name="Colorpoint_Shorthair">Короткошерстный колорпойнт</string>
+    <string name="Cornish_Rex">Корниш рекс</string>
+    <string name="Egyptian_Mau">Египетская мау</string>
+    <string name="European_Burmese">Европейская бурма</string>
+    <string name="Exotic">Экзотическая</string>
+    <string name="Havana_Brown">Гавана браун</string>
+    <string name="Japanese_Bobtail">Японский бобтейл</string>
+    <string name="Khao_Manee">Кхао-мани</string>
+    <string name="Korat">Корат</string>
+    <string name="LaPerm">Лаперм</string>
+    <string name="Lykoi">Ликой</string>
+    <string name="Maine_Coon">Мейн-кун</string>
+    <string name="Manx">Мэнкс</string>
+    <string name="Ocicat">Оцикет</string>
+    <string name="Oriental">Ориентальная</string>
+    <string name="RagaMuffin">Рагамаффин</string>
+    <string name="Ragdoll">Рэгдолл</string>
+    <string name="Russian_Blue">Русская голубая</string>
+    <string name="Scottish_Fold">Шотландская вислоухая</string>
+    <string name="Selkirk_Rex">Селкирк рекс</string>
+    <string name="Siamese">Сиамская</string>
+    <string name="Siberian">Сибирская</string>
+    <string name="Singapura">Сингапурская</string>
+    <string name="Somali">Сомали</string>
+    <string name="Sphynx">"Сфинкс "</string>
+    <string name="Tonkinese">"Тонкинская "</string>
+    <string name="Toybob">Той-боб</string>
+    <string name="Turkish_Angora">Турецкая ангора</string>
+</resources>
