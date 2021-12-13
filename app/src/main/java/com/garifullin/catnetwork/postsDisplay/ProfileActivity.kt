@@ -75,7 +75,6 @@ class ProfileActivity : AppCompatActivity() {
         }
         rv = findViewById(R.id.rvProfile)
         adapter = PostsAdapter(this)
-
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(this)
     }

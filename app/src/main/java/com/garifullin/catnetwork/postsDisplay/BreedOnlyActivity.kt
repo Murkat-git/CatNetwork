@@ -64,7 +64,6 @@ class BreedOnlyActivity : AppCompatActivity() {
                 val flow = Pager(PagingConfig(pageSize = 5)){
                     PostPagingSource(query = query)
                 }.flow
-
                 lifecycleScope.launch {
                     flow.collectLatest { pagingData ->
                         postsAdapter.submitData(pagingData)

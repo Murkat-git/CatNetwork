@@ -28,13 +28,13 @@ class PostPagingSource(var query: Query) : PagingSource<QuerySnapshot, Post>() {
             val lastVisibleProduct = currentPage.documents[currentPage.size() - 1]
             val nextPage = query.startAfter(lastVisibleProduct).get().await()
 
-            Log.d("mytag", params.key.toString())
+            //Log.d("mytag", params.key.toString())
             //val nextPageNumber = params.key ?: 1
 
 
 
             //val response = query.get().await()
-                //Log.d("mytag", response.size.toString())
+            //Log.d("mytag", response.size.toString())
             return LoadResult.Page(
                 data = currentPage.toObjects(Post::class.java),
                 prevKey = null,
@@ -44,7 +44,8 @@ class PostPagingSource(var query: Query) : PagingSource<QuerySnapshot, Post>() {
             // Handle errors in this block and return LoadResult.Error if it is an
             // expected error (such as a network failure).
             Log.d("mytag", e.toString())
-            return LoadResult.Error(e)
+            return LoadResult.Page(emptyList(), null, null)
+            //return LoadResult.Error(e)
         }
     }
 }

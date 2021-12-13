@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -24,7 +25,7 @@ import com.google.firebase.storage.StorageReference
 import com.roger.catloadinglibrary.CatLoadingView
 
 class RegisterActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth;
+    private lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
     lateinit var storageRef: StorageReference
     lateinit var pickedAvatarUri: Uri
@@ -48,34 +49,40 @@ class RegisterActivity : AppCompatActivity() {
             else{
                 auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnSuccessListener {
-                        catLoadingView.show(supportFragmentManager, "")
-                        catLoadingView.setText("Регистрация...")
-                        val ref = storageRef.child("avatars/" + auth.currentUser?.uid)
-                        val uploadTask = ref.putFile(pickedAvatarUri)
-                        val urlTask = uploadTask.continueWithTask { task ->
-                            if (!task.isSuccessful) {
-                                task.exception?.let {
-                                    throw it
+                        try {
+                            catLoadingView.show(supportFragmentManager, "")
+                            catLoadingView.setText("Регистрация...")
+                            val ref = storageRef.child("avatars/" + auth.currentUser?.uid)
+                            val uploadTask = ref.putFile(pickedAvatarUri)
+                            val urlTask = uploadTask.continueWithTask { task ->
+                                if (!task.isSuccessful) {
+                                    task.exception?.let {
+                                        throw it
+                                    }
+                                }
+                                ref.downloadUrl
+                            }
+                            urlTask.addOnCompleteListener { task ->
+                                catLoadingView.dialog!!.cancel()
+                                if (task.isSuccessful) {
+                                    val downloadUri = task.result
+                                    val createdUser = User()
+                                    createdUser.uid = auth.currentUser!!.uid
+                                    createdUser.username = username.text.toString()
+                                    createdUser.avatarUrl = downloadUri.toString()
+                                    db.collection("users").document(auth.currentUser?.uid.toString()).set(createdUser)
+                                    updateUI(auth.currentUser)
                                 }
                             }
-                            ref.downloadUrl
+
                         }
-                        urlTask.addOnCompleteListener { task ->
-                            catLoadingView.dialog!!.cancel()
-                            if (task.isSuccessful) {
-                                val downloadUri = task.result
-                                val createdUser: User = User()
-                                createdUser.uid = auth.currentUser!!.uid
-                                createdUser.username = username.text.toString()
-                                createdUser.avatarUrl = downloadUri.toString()
-                                db.collection("users").document(auth.currentUser?.uid.toString()).set(createdUser)
-                                updateUI(auth.currentUser)
-                            }
+                        catch (e: Exception){
+                            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()
                         }
 
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, e.toString(), Toast.LENGTH_LONG)
+                        Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()
                     }
             }
             login.isEnabled = true

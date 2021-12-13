@@ -1,6 +1,7 @@
 package com.garifullin.catnetwork
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import android.widget.Toast.makeText
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.TypedArrayUtils.getResourceId
 import com.garifullin.catnetwork.models.Post
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
@@ -25,21 +29,29 @@ import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import com.roger.catloadinglibrary.CatLoadingView
 import java.io.IOException
+import com.google.android.material.snackbar.Snackbar
+
+
+
 
 class CreatePost : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth;
+    private lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
     lateinit var storageRef: StorageReference
     lateinit var pickedImgUri: Uri
     lateinit var predictedBreed: String
     lateinit var catLoadingView: CatLoadingView
+    lateinit var contex: Context
+    lateinit var layout: ConstraintLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_post)
+        contex = this
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         storageRef = FirebaseStorage.getInstance().reference
         catLoadingView = CatLoadingView()
+        layout = findViewById(R.id.CreatePostLayout)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         pickImage()
@@ -88,21 +100,39 @@ class CreatePost : AppCompatActivity() {
 
                             val Customlabeler = ImageLabeling.getClient(customImageLabelerOptions)
                             Customlabeler.process(image)
-                                .addOnSuccessListener { labels ->
-                                    if (labels.size > 0){
-                                        predictedBreed = labels.get(0).text
+                                .addOnCompleteListener { labels ->
+
+                                    if (labels.result.size > 0){
+                                        predictedBreed = labels.result[0].text
+
                                     }
                                     else{
                                         predictedBreed = "Unlabeled"
                                     }
+                                    val snackbar = Snackbar.make(
+                                        layout,
+                                        getString(resources.getIdentifier(predictedBreed, "string", packageName)),
+                                        Snackbar.LENGTH_LONG
+                                    )
+                                    snackbar.show()
                                 }
-                                .addOnFailureListener { e ->
-                                    predictedBreed = "Unlabeled"
-                                }
+//                                .addOnSuccessListener { labels ->
+//                                    if (labels.size > 0){
+//                                        predictedBreed = labels.get(0).text
+//
+//                                    }
+//                                    else{
+//                                        predictedBreed = "Unlabeled"
+//                                    }
+//                                }
+//                                .addOnFailureListener { e ->
+//                                    predictedBreed = "Unlabeled"
+//                                }
+
 
                         }
                         else{
-                            Toast.makeText(this, "На фотографии не обнаружен кот", Toast.LENGTH_LONG).show()
+                            makeText(contex, "На фотографии не обнаружен кот", Toast.LENGTH_LONG).show()
                             pickImage()
                         }
                     }
@@ -118,9 +148,9 @@ class CreatePost : AppCompatActivity() {
             }
             // Use Uri object instead of File to avoid storage permissions
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+            makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+            makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -155,20 +185,21 @@ class CreatePost : AppCompatActivity() {
                     catLoadingView.dialog!!.cancel()
                     if (task.isSuccessful) {
                         val downloadUri = task.result
-                        val createdPost: Post = Post()
+                        val createdPost = Post()
                         createdPost.imgUrl = downloadUri.toString()
                         createdPost.userReference = db.collection("users").document(auth.currentUser!!.uid)
                         createdPost.description = text
                         createdPost.created = time
                         createdPost.breed = predictedBreed
+
                         db.collection("posts").add(createdPost)
-                        finish()
+                        //finish()
                     }
                 }
 
             }
             else{
-                Toast.makeText(this, "Выберите изображение", Toast.LENGTH_LONG).show()
+                makeText(this, "Выберите изображение", Toast.LENGTH_LONG).show()
             }
 
         }

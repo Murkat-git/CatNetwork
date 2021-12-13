@@ -31,7 +31,6 @@ class PostsAdapter(val context: Context) : PagingDataAdapter<Post, PostsAdapter.
 
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
         holder.bind(getItem(position)!!)
-
     }
 
     //override fun getItemCount() = posts.size
@@ -51,7 +50,7 @@ class PostsAdapter(val context: Context) : PagingDataAdapter<Post, PostsAdapter.
                 itemView.findViewById<TextView>(R.id.timestamp).text = DateUtils.getRelativeTimeSpanString(post.created)
                 itemView.findViewById<Layer>(R.id.post_header).setOnClickListener {
                     Log.e("mytag", "ok")
-                    var intent: Intent = Intent(context, ProfileActivity::class.java)
+                    val intent = Intent(context, ProfileActivity::class.java)
                     intent.putExtra("userUid", user!!.uid)
                     context.startActivity(intent)
                 }
