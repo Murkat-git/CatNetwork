@@ -167,7 +167,7 @@ class CreatePost : AppCompatActivity() {
         }
         else if (id == R.id.submit){
             if (this::pickedImgUri.isInitialized){
-                var text = findViewById<EditText>(R.id.description).text.toString()
+                val text = findViewById<EditText>(R.id.description).text.toString()
                 catLoadingView.show(supportFragmentManager, "")
                 catLoadingView.setText("Загрузка")
                 val time = System.currentTimeMillis()
@@ -193,7 +193,7 @@ class CreatePost : AppCompatActivity() {
                         createdPost.breed = predictedBreed
 
                         db.collection("posts").add(createdPost)
-                        //finish()
+                        finish()
                     }
                 }
 
